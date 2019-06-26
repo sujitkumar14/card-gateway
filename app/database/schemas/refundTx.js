@@ -14,4 +14,4 @@ let refundTx = new Schema({
 });
 
 
-module.exports = Mongoose.model("refundTx", refundTx);
+module.exports = Mongoose.model("refund_tx", refundTx);

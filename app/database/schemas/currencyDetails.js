@@ -15,4 +15,4 @@ let CurrencyDetails = new Schema({
 
 });
 
-module.exports = Mongoose.model("currencyDetails", CurrencyDetails);
+module.exports = Mongoose.model("currency_details", CurrencyDetails);

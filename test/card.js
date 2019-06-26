@@ -6,24 +6,21 @@ const Config = require('../app/config');
 let url = "http://localhost:3000/v1"
 
 
+describe("Currency Route", function () {
 
-
-describe("Refund Route", function () {
-
-    it('Check POST request', function (done) {
+    it('Add New Currency', function (done) {
 
         this.timeout(0);
 
-
         let options = {
 
-            'url': url + '/refund',
+            'url': url + '/card/new',
             'method': 'POST',
             'body': {
 
-                'txId': '2',
-                'rId': '25',
-                'amount': '2.5654'
+               'cardNo': '1234489734634834',
+               'expiry': 1543212343323,
+               'cvv': 123
             },
             'headers': {},
             'json': true
@@ -40,52 +37,19 @@ describe("Refund Route", function () {
             });
     });
 
-    it('Check Checksum request', function (done) {
+    it('Check Invalid Parameter Request', function (done) {
 
         this.timeout(0);
 
-
         let options = {
 
-            'url': url + '/refund',
+            'url': url + '/card/new',
             'method': 'POST',
             'body': {
 
-                'txId': '2',
-                'rId': '25',
-                'amount': '2.5654'
-            },
-            'headers': {},
-            'json': true
-        }
-        // options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['body']), Config['secretKey']);
-
-        Request(options)
-            .then((response) => {
-                Chai.expect(response.status.code).to.equal(200);
-                done();
-            })
-            .catch((err) => {
-                err = err.error;
-                Chai.expect(err.status.code).to.equal(401);
-                done();
-            });
-    });
-
-    it('Check Invalid Parameter request', function (done) {
-
-        this.timeout(0);
-
-
-        let options = {
-
-            'url': url + '/refund',
-            'method': 'POST',
-            'body': {
-
-               
-                'rId': '25',
-                'amount': '2.5654'
+            
+               'expiry': 1543212343323,
+               'cvv': 123
             },
             'headers': {},
             'json': true
@@ -103,10 +67,6 @@ describe("Refund Route", function () {
                 done();
             });
     });
-
-
-
-
 });
 
 

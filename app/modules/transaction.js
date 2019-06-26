@@ -6,7 +6,7 @@ const Constants = require('../utils/constants');
 const TransactionHelper = require('../helpers/transaction');
 const Utils = require('../utils/utils');
 const CurrencyDetailsModel = require('../models/currencyDetails');
-const CardDetailsModel = require('../database/schemas/cardDetails');
+const CardDetailsModel = require('../models/cardDetails');
 let Transaction = {};
 
 /**
@@ -302,7 +302,7 @@ Transaction.addNewCard = async function (cardObj) {
 
     try {
 
-        await CardDetailsModel.saveCard(cardObj);
+        await CardDetailsModel.saveCardDetails(cardObj);
         return { "type": SuccessHandler.message.CARD_SAVED_SUCCESSFULLY, "data": {} };
 
     }

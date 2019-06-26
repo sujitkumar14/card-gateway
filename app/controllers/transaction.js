@@ -256,16 +256,16 @@ Transaction.addNewCard = async function (req, res) {
         let expiry = body['expiry'];
 
         if (!cardNo) {
-            
-            ErrorHandler.sendResponse(res,ErrorHandler.message.INVALID_PARAMETER,"Card No is required");
+
+            ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "Card No is required");
         }
         else if (!cvv) {
 
-            ErrorHandler.sendResponse(res,ErrorHandler.message.INVALID_PARAMETER,"cvv is required");
+            ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "cvv is required");
         }
         else if (!expiry) {
 
-            ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER,"Expiry is required");
+            ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "Expiry is required");
         }
         else {
 

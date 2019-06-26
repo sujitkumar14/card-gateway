@@ -17,4 +17,4 @@ let transactionSchema = new Schema({
 
 });
 
-module.exports = Mongoose.model("paymentTx", transactionSchema);
+module.exports = Mongoose.model("payment_tx", transactionSchema);
