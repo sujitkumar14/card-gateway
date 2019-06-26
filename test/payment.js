@@ -34,6 +34,7 @@ describe("Payment Route", function () {
             'json': true
         }
         options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['body']), Config['secretKey']);
+        console.log(options['headers']['checksum']);
 
         Request(options)
             .then((response) => {

@@ -12,7 +12,9 @@ router.get('/payment/:txId', TransactionController.getTransaction);
 
 router.post('/refund',AuthMiddleware.verifyParameters, TransactionController.refund);
 
-router.post('/bank/payment/:txId', TransactionController.bankPaymentResponse)
+router.post('/bank/payment/:txId', TransactionController.bankPaymentResponse);
+
+router.post('/bank/refund/:rId', TransactionController.bankRefundResponse);
 
 
 router.post('/currency/new', TransactionController.addNewCurrency);

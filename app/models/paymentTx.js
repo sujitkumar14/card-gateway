@@ -21,8 +21,15 @@ Transaction.saveTransaction = async function (transactionObj) {
         return saveResponse;
     }
     catch (err) {
-        Utils.logs(Contants.ERROR, err);
-        throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        if (err.code === 11000) {
+            //dublicate error of mongo
+            Utils.logs(Contants.Error, err);
+            throw new Error(ErrorHandler.message.DUBLICATE_ENTRY);
+        }
+        else {
+            Utils.logs(Contants.ERROR, err);
+            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        }
     }
 }
 
@@ -65,13 +72,5 @@ Transaction.updateTransaction = async function (query, update) {
         throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
     }
 }
-
-
-
-
-
-
-
-
 
 module.exports = Transaction;

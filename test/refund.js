@@ -22,7 +22,7 @@ describe("Refund Route", function () {
             'body': {
 
                 'txId': '2',
-                'rId': '24',
+                'rId': '25',
                 'amount': '2.5654'
             },
             'headers': {},

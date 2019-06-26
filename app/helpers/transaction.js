@@ -1,5 +1,6 @@
 
 const CardDetailsModel = require('../models/cardDetails');
+const PaymentTxModel = require('../models/paymentTx');
 const ErrorHandler = require('../responseHandlers/errorHandler');
 const Request = require('request-promise');
 const Utils = require('../utils/utils');
@@ -80,7 +81,7 @@ Transaction.changeTypeId = function (transaction) {
     if ('type' in transaction && 'typeId' in transaction) {
         let type = transaction['type'];
         let typeId = transaction['typeId'];
-        if (type === Constants.CREDIT_CARD || typeId === Constants.DEBIT_CARD) {
+        if (type === Constants.CREDIT_CARD || type === Constants.DEBIT_CARD) {
 
             transaction['cardNo'] = typeId;
             delete transaction['typeId'];
@@ -97,6 +98,66 @@ Transaction.changeTypeId = function (transaction) {
         Utils.logs(Constants.ERROR, "Type not exist" + JSON.stringify(transaction));
         throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
     }
-
 }
+
+/**
+ * function add the amount in payment tx document 
+ * @param {string} txId - transaction Id
+ * @param {string} field - field at which addition needed
+ * @param {string} amount - amount need to be added
+ */
+Transaction.addAmountInPaymentTx = async function (txId, field, amount) {
+
+    try {
+        let transactionDetails = await PaymentTxModel.getTransaction(txId);
+        //update the transaction query
+        let query = {
+            'txId': txId
+        };
+        let update = {
+            "$set": {
+                [field]: Utils.safeMaths(transactionDetails[field], '+', amount)
+            }
+        }
+
+        return await PaymentTxModel.updateTransaction(query, update);
+
+    }
+    catch (err) {
+
+        throw new Error(err.message);
+    }
+}
+
+
+/**
+ * function deduct the amount in payment tx document 
+ * @param {string} txId - transaction Id
+ * @param {string} field - field at which addition needed
+ * @param {string} amount - amount need to be added
+ */
+Transaction.deductAmountInPaymentTx = async function (txId, field, amount) {
+
+    try {
+        let transactionDetails = await PaymentTxModel.getTransaction(txId);
+        //update the transaction query
+        let query = {
+            'txId': txId
+        };
+        let update = {
+            "$set": {
+                [field]: Utils.safeMaths(transactionDetails[field], '-', amount)
+            }
+        }
+
+        return await PaymentTxModel.updateTransaction(query, update);
+
+    }
+    catch (err) {
+
+        throw new Error(err.message);
+    }
+}
+
+
 module.exports = Transaction;

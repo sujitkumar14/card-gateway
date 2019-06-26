@@ -157,6 +157,54 @@ Transaction.processBankPaymentResponse = async function (txId, status) {
 
 
 /**
+ * function process Bank Refund Response i.e refund is completed or failed
+ * @param {String} rid - refund Id
+ * @param {String} status - [completed,failed]
+ */
+Transaction.processBankRefundResponse = async function (rId, status) {
+
+    try {
+
+        let refundDetails = await RefundTxModel.getDetails(rId);
+
+        if (!refundDetails) {
+
+            throw new Error(ErrorHandler.message.TX_NOT_FOUND);
+        }
+        else if (status !== 'completed' && status !== 'failed') {
+            throw new Error(ErrorHandler.message.INVALID_STATUS);
+        }
+        else if (refundDetails['status'] === 'completed' || refundDetails['status'] === 'failed') {
+
+            throw new Error(ErrorHandler.message.ALREADY_COMPLETED);
+        }
+        else {
+
+            let query = {
+                'rId': rId,
+            };
+            let update = {
+                "$set": {
+                    'status': status
+                }
+            }
+
+            if (status === 'failed')
+                await TransactionHelper.deductAmountInPaymentTx(refundDetails['txId'], 'refundedAmount', refundDetails['amount']);
+
+            await RefundTxModel.updateRefundTx(query, update);
+
+            return { "type": SuccessHandler.message.SUCCESSFULLY_PROCESSED, "data": {} };
+        }
+    }
+    catch (err) {
+
+        throw new Error(err.message);
+    }
+}
+
+
+/**
  * function to refund the amount of txId
  * do the following things.
  * 1. check txId status is completed
@@ -200,18 +248,11 @@ Transaction.refund = async function (refundObj) {
             let status = "completed";
             ////////////////////////////////////////////////////////////////////////
 
-            //update the transaction query
-            let query = {
-                'txId': refundObj['txId']
-            };
-            let update = {
-                "$set": {
-                    'refundedAmount': Utils.safeMaths(transactionDetails['refundedAmount'], '+', refundObj['amount'])
-                }
-            }
+            //adding refund balance
+            await TransactionHelper.addAmountInPaymentTx(transactionDetails['txId'], 'refundedAmount', refundObj['amount']);
 
-            transactionDetails = await PaymentTxModel.updateTransaction(query, update);
-            transactionDetails['status'] = status;
+            //setting status in refundObject
+            refundObj['status'] = status;
             await RefundTxModel.saveRefundTx(refundObj);
             let response = {
 

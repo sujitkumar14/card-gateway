@@ -119,6 +119,28 @@ Transaction.bankPaymentResponse = async function (req, res) {
     }
 }
 
+
+/**
+ * function handles bank refund response endpoint
+ * @param {object} req - request object
+ * @param {object} res - response object
+ */
+Transaction.bankRefundResponse = async function (req, res) {
+
+    try {
+
+        let rId = req.params['rId'];
+        let status = req.body['status'];
+
+        let processBankResponse = await TransactionModule.processBankRefundResponse(rId, status);
+        SuccessHandler.sendResponse(res, processBankResponse.type, processBankResponse.data);
+    }
+    catch (err) {
+
+        ErrorHandler.sendResponse(res, err.message);
+    }
+}
+
 /**
  * function handle refund request 
  * @param {object} req - request object
@@ -234,13 +256,16 @@ Transaction.addNewCard = async function (req, res) {
         let expiry = body['expiry'];
 
         if (!cardNo) {
-
+            
+            ErrorHandler.sendResponse(res,ErrorHandler.message.INVALID_PARAMETER,"Card No is required");
         }
         else if (!cvv) {
 
+            ErrorHandler.sendResponse(res,ErrorHandler.message.INVALID_PARAMETER,"cvv is required");
         }
         else if (!expiry) {
 
+            ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER,"Expiry is required");
         }
         else {
 
