@@ -41,7 +41,7 @@ Transaction.newTransaction = async function (transactionObj) {
             //////////////////// HERE CARD DETAILS ARE REQUIRED //////////////////////
 
             let bankUrl = `http://localhost:4000/bank/${transactionObj['txId']}`;
-            let status = 'pending';
+            let status = Constants.PENDING;
 
             ///////////////////////////////////////////////////////////////////////
 
@@ -125,10 +125,10 @@ Transaction.processBankPaymentResponse = async function (txId, status) {
 
             throw new Error(ErrorHandler.message.TX_NOT_FOUND);
         }
-        else if (status !== 'completed' && status !== 'pending') {
+        else if (status !== Constants.COMPLETED && status !==Constants.FAILED) {
             throw new Error(ErrorHandler.message.INVALID_STATUS);
         }
-        else if (transactionDetails['status'] === 'completed' || transactionDetails['status'] === 'failed') {
+        else if (transactionDetails['status'] === Constants.COMPLETED || transactionDetails['status'] === Constants.FAILED) {
 
             throw new Error(ErrorHandler.message.ALREADY_COMPLETED);
         }
@@ -171,10 +171,10 @@ Transaction.processBankRefundResponse = async function (rId, status) {
 
             throw new Error(ErrorHandler.message.TX_NOT_FOUND);
         }
-        else if (status !== 'completed' && status !== 'failed') {
+        else if (status !== Constants.COMPLETED && status !== Constants.FAILED) {
             throw new Error(ErrorHandler.message.INVALID_STATUS);
         }
-        else if (refundDetails['status'] === 'completed' || refundDetails['status'] === 'failed') {
+        else if (refundDetails['status'] === Constants.COMPLETED || refundDetails['status'] === Constants.FAILED) {
 
             throw new Error(ErrorHandler.message.ALREADY_COMPLETED);
         }
@@ -245,7 +245,7 @@ Transaction.refund = async function (refundObj) {
 
 
             //////////////////// DO NECESSARY BANK CALLS HERE ////////////////////////
-            let status = "completed";
+            let status = Constants.COMPLETED;
             ////////////////////////////////////////////////////////////////////////
 
             //adding refund balance

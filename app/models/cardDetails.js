@@ -19,7 +19,7 @@ Card.getCard = async function (cardNo) {
     }
     catch (err) {
         Utils.logs(Contants.ERROR, err);
-        throw new Error(ErrorHandler.Contants.INTERNAL_SERVER_ERROR);
+        throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
     }
 }
 
@@ -38,8 +38,15 @@ Card.saveCardDetails = async function (cardObj) {
     }
     catch (err) {
 
-        Utils.logs(Contants.ERROR, err);
-        throw new Error(ErrorHandler.Contants.INTERNAL_SERVER_ERROR);
+        if (err.code === 11000) {
+
+            Utils.logs(Contants.ERROR, err);
+            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        }
+        else {
+            Utils.logs(Contants.ERROR, err);
+            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        }
 
     }
 }

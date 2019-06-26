@@ -20,9 +20,15 @@ RefundTx.saveRefundTx = async function (refundObj) {
         return saveResponse;
     }
     catch (err) {
-
-        Utils.logs(Contants.ERROR, err);
-        throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        
+        if (err.code === 11000) {
+            Utils.logs(Contants.ERROR, err);
+            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        }
+        else {
+            Utils.logs(Contants.ERROR, err);
+            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        }
     }
 }
 
