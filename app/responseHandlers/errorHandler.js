@@ -18,7 +18,8 @@ ErrorHandler.message = {
     "CURRENCY_NOT_SUPPORTED": JSON.stringify({ "code": 200, "message": "Currency is not supported yet" }),
     "DUBLICATE_ENTRY": JSON.stringify({ "code": 200, "message": "dublicate entry" }),
     "INVALID_STATUS": JSON.stringify({ "code": 200, "message": "Invalid Status" }),
-    "ALREADY_REFUNDED": JSON.stringify({"code": 200, "message": "already refunded"})
+    "ALREADY_REFUNDED": JSON.stringify({"code": 200, "message": "already refunded"}),
+    "NOT_FOUND": JSON.stringify({"code": 200, "message": "Not found"})
 }
 
 
