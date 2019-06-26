@@ -14,10 +14,19 @@ let Auth = {};
 Auth.verifyParameters = function (req, res, next) {
 
     try {
+        let reqChecksum, curChecksum;
+        if (req.method === 'POST') {
 
-        let body = JSON.stringify(req.body); //converting object to string
-        let reqChecksum = req.headers['checksum'];
-        let curChecksum = Utils.createHMAC256(body, _config['secretKey']);
+            let body = JSON.stringify(req.body); //converting object to string
+            reqChecksum = req.headers['checksum']; //incoming checksum
+            curChecksum = Utils.createHMAC256(body, _config['secretKey']);
+        }
+        else {
+            let checksumString = JSON.stringify(req.query);
+            reqChecksum = req.headers['checksum'];
+            curChecksum = Utils.createHMAC256(checksumString, _config['secretKey']);
+
+        }
 
         if (reqChecksum === curChecksum) {
             next();

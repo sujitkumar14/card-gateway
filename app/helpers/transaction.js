@@ -78,7 +78,7 @@ Transaction.sendResponseToRedirectUrl = function (url, body) {
  */
 Transaction.changeTypeId = function (transaction) {
 
-    if ('type' in transaction && 'typeId' in transaction) {
+    if (transaction && 'type' in transaction && 'typeId' in transaction) {
         let type = transaction['type'];
         let typeId = transaction['typeId'];
         if (type === Constants.CREDIT_CARD || type === Constants.DEBIT_CARD) {

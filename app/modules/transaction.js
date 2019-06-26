@@ -94,11 +94,17 @@ Transaction.getTransaction = async function (txId) {
 
 
         let transaction = transactionDetailsAndRefund[0];
-        //changing type based on cards
-        transaction = TransactionHelper.changeTypeId(transaction);
-        transaction['refundTxs'] = transactionDetailsAndRefund[1];
+        if (transaction) {
+            //changing type based on cards
+            transaction = TransactionHelper.changeTypeId(transaction);
+            transaction['refundTxs'] = transactionDetailsAndRefund[1];
 
-        return { "data": transaction, "type": SuccessHandler.message.TX_DETAILS };
+            return { "data": transaction, "type": SuccessHandler.message.TX_DETAILS };
+        }
+        else {
+
+            throw new Error(ErrorHandler.message.TX_NOT_FOUND);
+        }
 
     }
     catch (err) {
@@ -125,7 +131,7 @@ Transaction.processBankPaymentResponse = async function (txId, status) {
 
             throw new Error(ErrorHandler.message.TX_NOT_FOUND);
         }
-        else if (status !== Constants.COMPLETED && status !==Constants.FAILED) {
+        else if (status !== Constants.COMPLETED && status !== Constants.FAILED) {
             throw new Error(ErrorHandler.message.INVALID_STATUS);
         }
         else if (transactionDetails['status'] === Constants.COMPLETED || transactionDetails['status'] === Constants.FAILED) {

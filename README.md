@@ -4,7 +4,7 @@ A module interact with bank and gives back the response to payment gateway.
 
 <h2>Requirements</h2>
 
-    node>=10.16.0 && npm>=6.9.0
+    node>=10.16.0 && npm>=6.9.0 && mongodb>=4.0
 
 <h2>Installation and Usage</h2>
 
@@ -49,6 +49,7 @@ Request
         g. amount
         h. currencyCode
         i. type - ['credit_card','debit_card']
+        j. saveCard - [true,false] //Permission to save the card
     Headers:
         a. checksum -  encryted with the private Key using symmetric key
     
@@ -58,7 +59,7 @@ Response
         a. txId 
         b. bankUrl - received from bank
         c. amount
-        d. currency
+        d. currencyCode
         e. status 
     Headers:
         a. checksum -  encryted with the private Key using symmetric key
@@ -69,7 +70,6 @@ Returns the Details of txId
     Endpoint: /:txid
 
 Request:
-    
     Method: GET
     Params:
         a. txid - Transaction Id of which details need
@@ -81,8 +81,13 @@ Response:
         b. status
         c. amount
         d. refundedAmount //total Refunded Amount
-        f. redundedTxs // refunded txs
-        g. currency
+        e. redirectUrl
+        f. redundedTxs // refunded txs array
+        g. currencyCode
+        h. type
+        i. cardNo or AccountNo
+        j. createdAt
+        k. updatedAt
 
 <h3>Refund Payment</h3>
 Refund the amount of txId
@@ -101,7 +106,6 @@ Request:
        
 
 Response:
-    
     Body:
         a. txId
         b. rid
@@ -135,3 +139,28 @@ Request:
     body: 
         status
 
+<h3>Add new Currency Support</h3>
+Add a new currency
+
+    Endpoint: /currency/new
+
+Request:
+    Method: POST
+    Body:
+        a. name
+        b. code
+        c. decimals
+        e. country
+
+<h3>Save new Card</h3>
+Save a new Card
+
+    Endpoint: /card/new
+
+Request:
+
+    Method: POST
+    Body:
+        a. cardNo
+        b. expiry
+        c. cvv

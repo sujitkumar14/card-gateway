@@ -23,6 +23,7 @@ describe("Currency Route", function () {
                 'country': 'India',
                 'decimals': 2
             },
+            'qs': {},
             'headers': {},
             'json': true
         }

@@ -92,10 +92,11 @@ describe("Payment Route", function () {
 
             'url': url + `/payment/${2}`,
             'method': 'GET',
+            'qs':{},
             'headers': {},
             'json': true
         }
-        // options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['body']), Config['secretKey']);
+        options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['qs']), Config['secretKey']);
 
         Request(options)
             .then((response) => {
