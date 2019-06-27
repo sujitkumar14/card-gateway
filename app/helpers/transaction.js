@@ -160,5 +160,40 @@ Transaction.deductAmountInPaymentTx = async function (txId, field, amount) {
     }
 }
 
+/**
+ * function to communicate with bank 
+ * @param {string} url bank url
+ * @param {string} data In case of post  - body, in case of get - query
+ * @param {string} method GET,POST
+ */
+Transaction.communicateWithBank = async function (url, data, method) {
+
+    try {
+
+
+
+        let options = {
+
+            'method': method,
+            'url': url,
+            'json': true
+        }; 
+
+        if(method === 'POST'){
+            options['body'] = data;
+        }
+        else{
+            options['qs'] = data;
+        }
+
+        let response = await Request(options);
+        return response;
+
+    }
+    catch (err) {
+
+        throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+    }
+}
 
 module.exports = Transaction;

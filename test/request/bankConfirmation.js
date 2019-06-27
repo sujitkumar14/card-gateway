@@ -8,11 +8,7 @@ let txId = '1';
 let options = {
 
     'url': url + `/bank/payment/${txId}`,
-    'method': 'POST',
-    'body': {
-
-        "status": "completed"
-    },
+    'method': 'GET',
     'headers': {},
     'json': true
 }

@@ -41,8 +41,16 @@ Transaction.newTransaction = async function (transactionObj) {
             //////////////////  DO ALL BANK CALLS HERE /////////////////////////////////
             //////////////////// HERE CARD DETAILS ARE REQUIRED //////////////////////
 
-            let bankUrl = `http://localhost:4000/bank/${transactionObj['txId']}`;
-            let status = Constants.PENDING;
+            let body = {
+                redirectUrl: _config['domain'] + `/bank/payment/${transactionObj['txId']}`
+            }
+            let bankURL = `http://localhost:4000/bank/payment/${transactionObj['txId']}`;
+            let method = 'POST';
+
+            let bankResponse = await TransactionHelper.communicateWithBank(bankURL, body, method);
+
+            let bankUrl = bankResponse['bankUrl'];
+            let status = bankResponse['status']; //assumed that here status will be pending, completed ,failed
 
             ///////////////////////////////////////////////////////////////////////
 
@@ -121,7 +129,7 @@ Transaction.getTransaction = async function (txId) {
  * @param {string} txId - transaction Id
  * @param {string} status
  */
-Transaction.processBankPaymentResponse = async function (txId, status) {
+Transaction.processBankPaymentResponse = async function (txId) {
 
     try {
 
@@ -132,14 +140,24 @@ Transaction.processBankPaymentResponse = async function (txId, status) {
 
             throw new Error(ErrorHandler.message.TX_NOT_FOUND);
         }
-        else if (status !== Constants.COMPLETED && status !== Constants.FAILED) {
-            throw new Error(ErrorHandler.message.INVALID_STATUS);
-        }
         else if (transactionDetails['status'] === Constants.COMPLETED || transactionDetails['status'] === Constants.FAILED) {
 
             throw new Error(ErrorHandler.message.ALREADY_COMPLETED);
         }
         else {
+
+            /////////////////////////// Communicate with bank /////////////////////
+
+            let bankURL = `http://localhost:4000/bank/payment/${transactionDetails['txId']}`;
+            let method = "GET";
+
+            let bankResponse = await TransactionHelper.communicateWithBank(bankURL, {}, method);
+
+            let status = bankResponse['status'];
+
+
+            /////////////////////////////////////////////////////////////////////
+
 
             let query = {
                 'txId': txId,
@@ -153,7 +171,7 @@ Transaction.processBankPaymentResponse = async function (txId, status) {
             //send a response on the redirect url 
             await PaymentTxModel.updateTransaction(query, update);
             // TransactionHelper.sendResponseToRedirectUrl(transactionDetails['redirectUrl'], { 'status': status });
-            return { "type": SuccessHandler.message.SUCCESSFULLY_PROCESSED, data: {} };
+            return { "type": SuccessHandler.message.SUCCESSFULLY_PROCESSED, data: {}, redirectUrl: transactionDetails['redirectUrl'] };
         }
     }
     catch (err) {
@@ -337,5 +355,3 @@ Transaction.addNewCard = async function (cardObj) {
     }
 }
 module.exports = Transaction;
-
-

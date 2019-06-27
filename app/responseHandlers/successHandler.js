@@ -23,22 +23,29 @@ SuccessHandler.message = {
  * @param {Object} type - SuccessHandler.message
  * @param {object} datas - data of Success Response
  */
-SuccessHandler.sendResponse = function (res, type, datas, description) {
+SuccessHandler.sendResponse = function (res, type, datas, redirectUrl, description) {
 
-    let successType = type;
+    if (!redirectUrl) {
+        let successType = type;
 
-    let successResponse = {
+        let successResponse = {
 
-        'success': true,
-        'message': successType.message,
-        'data': datas,
-        'status': {
-            'code': successType.code,
-            'description': "" || description
-        }
-    };
+            'success': true,
+            'message': successType.message,
+            'data': datas,
+            'status': {
+                'code': successType.code,
+                'description': "" || description
+            }
+        };
 
-    res.status(successType.code).send(successResponse);
+        res.status(successType.code).send(successResponse);
+    }
+    else {
+
+        res.redirect(redirectUrl);
+    }
+
 }
 
 module.exports = SuccessHandler;

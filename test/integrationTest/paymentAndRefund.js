@@ -49,7 +49,7 @@ describe("Check Payment And Refund", function () {
 
                 options = {
                     'url': url + `/bank/payment/${txId}`,
-                    'method': 'POST',
+                    'method': 'GET',
                     'body': {
 
                         'status': 'completed',
