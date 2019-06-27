@@ -5,7 +5,7 @@ let Schema = Mongoose.Schema;
 
 let cardDetails = new Schema({
 
-    cardNo: { type: String, required: true },
+    cardNo: { type: String, unique: true, index: true },
     cvv: { type: String, required: true },
     expiry: { type: Number, required: true },
     createdAt: { type: Number, default: Date.now },

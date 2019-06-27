@@ -41,7 +41,7 @@ Card.saveCardDetails = async function (cardObj) {
         if (err.code === 11000) {
 
             Utils.logs(Contants.ERROR, err);
-            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+            throw new Error(ErrorHandler.message.DUBLICATE_ENTRY);
         }
         else {
             Utils.logs(Contants.ERROR, err);
