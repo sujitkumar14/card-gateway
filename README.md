@@ -29,6 +29,17 @@ npm start
     code: 400-500
     description: //Reason of being failed 
 
+## CHECKSUM GENERATION
+
+Checksum in header is used to authenticate request
+
+**POST Request**
+
+create a HMAC256 checksum of body parameters.
+
+**GET REQUEST**
+
+Create a HMAC256 Checksum of Query Params
 
 ## Endpoints
 
