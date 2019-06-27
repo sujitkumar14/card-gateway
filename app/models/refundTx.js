@@ -20,10 +20,10 @@ RefundTx.saveRefundTx = async function (refundObj) {
         return saveResponse;
     }
     catch (err) {
-        
+
         if (err.code === 11000) {
             Utils.logs(Contants.ERROR, err);
-            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+            throw new Error(ErrorHandler.message.DUBLICATE_ENTRY);
         }
         else {
             Utils.logs(Contants.ERROR, err);
@@ -42,6 +42,25 @@ RefundTx.getDetails = async function (rId) {
     try {
 
         let refundDetails = await RefundTxSchema.findOne({ 'rId': rId }, { __v: 0, _id: 0 }).lean();
+        return refundDetails;
+    }
+    catch (err) {
+
+        Utils.logs(Contants.ERROR, err);
+        throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+    }
+}
+
+/**
+ * function returns the refund details by refund Id
+ * @param {String} query  -  refund Query
+ * @return {Promise} - returns the Promise object of Success or err
+ */
+RefundTx.getDetailsFromQuery = async function(query){
+
+    try {
+
+        let refundDetails = await RefundTxSchema.findOne({ query }, { __v: 0, _id: 0 }).lean();
         return refundDetails;
     }
     catch (err) {

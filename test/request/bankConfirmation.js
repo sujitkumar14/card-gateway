@@ -10,6 +10,9 @@ let options = {
     'url': url + `/bank/payment/${txId}`,
     'method': 'GET',
     'headers': {},
+    'qs':{
+        'status': 'completed'
+    }, //just for testing
     'json': true
 }
 

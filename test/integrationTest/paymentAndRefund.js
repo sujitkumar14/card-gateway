@@ -54,15 +54,20 @@ describe("Check Payment And Refund", function () {
 
                         'status': 'completed',
                     },
+                    'qs': {
+                        'status': 'completed'
+                    }, //just for testing
                     'headers': {},
                     'json': true
                 }
 
-                return Request(options);
+                Request(options);
 
+                return Utils.sleep(100) ;
             })
-            .then((response) => {
+            .then((response)=>{
 
+                
                 options = {
 
                     'url': url + '/refund',

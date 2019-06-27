@@ -130,4 +130,14 @@ Utils.checkDecimals = function (num, decimalPoints) {
 
 }
 
+/**
+ * function sleep to time 
+ * @param {number} time time in ms
+ */
+Utils.sleep = function(time){
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,time);
+    });
+}
+
 module.exports = Utils;

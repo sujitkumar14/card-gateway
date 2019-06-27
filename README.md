@@ -143,11 +143,9 @@ Url at which banks sends a Response after completion of payment
 
 #### Request
 
-    Method: POST
+    Method: GET
     Params:
         a. txid - transaction Id
-    body:
-        status
 
 
 ### Redirect Refund Url for Bank
@@ -158,11 +156,9 @@ Url at which banks sends a Response after completion of a payment
 
 #### Request
 
-    Method: POST
+    Method: GET
     Params: 
         a. rid - refund Id
-    body: 
-        status
 
 ### Add new Currency Support
 

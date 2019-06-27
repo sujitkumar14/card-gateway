@@ -43,7 +43,7 @@ SuccessHandler.sendResponse = function (res, type, datas, redirectUrl, descripti
     }
     else {
 
-        res.redirect(redirectUrl);
+        res.status(302).redirect(redirectUrl);
     }
 
 }

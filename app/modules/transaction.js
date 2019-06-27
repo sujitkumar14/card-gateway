@@ -129,7 +129,7 @@ Transaction.getTransaction = async function (txId) {
  * @param {string} txId - transaction Id
  * @param {string} status
  */
-Transaction.processBankPaymentResponse = async function (txId) {
+Transaction.processBankPaymentResponse = async function (txId, status) { //Remove Status when testing is done
 
     try {
 
@@ -148,13 +148,12 @@ Transaction.processBankPaymentResponse = async function (txId) {
 
             /////////////////////////// Communicate with bank /////////////////////
 
-            let bankURL = `http://localhost:4000/bank/payment/${transactionDetails['txId']}`;
-            let method = "GET";
+            // let bankURL = `http://localhost:4000/bank/payment/${transactionDetails['txId']}`;
+            // let method = "GET";
 
-            let bankResponse = await TransactionHelper.communicateWithBank(bankURL, {}, method);
+            // let bankResponse = await TransactionHelper.communicateWithBank(bankURL, {}, method);
 
-            let status = bankResponse['status'];
-
+            // let status = bankResponse['status'];
 
             /////////////////////////////////////////////////////////////////////
 
@@ -248,7 +247,7 @@ Transaction.refund = async function (refundObj) {
     try {
 
         lock = await Redis.lock(lockKey, ttl);
-        let transactionDetailsAndRefundDetails = await Promise.all([PaymentTxModel.getTransaction(refundObj['txId']), RefundTxModel.getDetails(refundObj['rId'])]);
+        let transactionDetailsAndRefundDetails = await Promise.all([PaymentTxModel.getTransaction(refundObj['txId']), RefundTxModel.getDetailsFromQuery({ 'txId': refundObj['txId'], 'rId': refundObj['rId'] })]);
         let transactionDetails = transactionDetailsAndRefundDetails[0];
         let refundDetails = transactionDetailsAndRefundDetails[1];
 

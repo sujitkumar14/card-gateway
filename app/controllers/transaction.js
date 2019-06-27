@@ -110,7 +110,10 @@ Transaction.bankPaymentResponse = async function (req, res) {
 
         let txId = req.params['txId'];
 
-        let processBankResponse = await TransactionModule.processBankPaymentResponse(txId);
+        //just for testing/////////
+        let status = req.query['status'];
+        //////////////////////////////////
+        let processBankResponse = await TransactionModule.processBankPaymentResponse(txId,status);
         SuccessHandler.sendResponse(res, processBankResponse.type, processBankResponse.data, processBankResponse.redirectUrl);
     }
     catch (err) {
