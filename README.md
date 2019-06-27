@@ -13,6 +13,14 @@ npm install
 npm start
 ```
 
+## Run Using Docker
+
+**NOTE: Bank API should be at parent folder of card-gateway**
+
+    docker-compose build
+    docker-compose up
+    docker-compose down(to down the docker)
+
 ## API Docs
 
     url: http://localhost:3000/v1
