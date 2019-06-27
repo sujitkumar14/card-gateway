@@ -20,4 +20,5 @@ router.post('/bank/refund/:rId', TransactionController.bankRefundResponse);
 router.post('/currency/new', AuthMiddleware.verifyParameters, TransactionController.addNewCurrency);
 router.post('/card/new', AuthMiddleware.verifyParameters, TransactionController.addNewCard);
 
+
 module.exports = router;

@@ -33,7 +33,7 @@ Transaction.newTransaction = async function (req, res) {
 
             ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "txId is required");
         }
-        else if (!Utils.isNumber(amount)) {
+        else if (!Utils.isValidNumber(amount)) {
 
             ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "amount is not a valid Number");
         }
@@ -165,7 +165,7 @@ Transaction.refund = async function (req, res) {
 
             ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "rId is required");
         }
-        else if (!Utils.isNumber(amount)) {
+        else if (!Utils.isValidNumber(amount)) {
 
             ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "amount is not a valid number");
         }
@@ -211,7 +211,7 @@ Transaction.addNewCurrency = async function (req, res) {
         else if (!code) {
             ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "Code is required");
         }
-        else if (!Utils.isNumber(decimals)) {
+        else if (!Utils.isValidNumber(decimals)) {
 
             ErrorHandler.sendResponse(res, ErrorHandler.message.INVALID_PARAMETER, "Decimals is not a valid number");
         }

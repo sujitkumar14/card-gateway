@@ -19,7 +19,8 @@ ErrorHandler.message = {
     "DUBLICATE_ENTRY": JSON.stringify({ "code": 200, "message": "dublicate entry" }),
     "INVALID_STATUS": JSON.stringify({ "code": 200, "message": "Invalid Status" }),
     "ALREADY_REFUNDED": JSON.stringify({"code": 200, "message": "already refunded"}),
-    "NOT_FOUND": JSON.stringify({"code": 200, "message": "Not found"})
+    "NOT_FOUND": JSON.stringify({"code": 200, "message": "Not found"}),
+    "TX_NOT_COMPLETED": JSON.stringify({"code":200, "message": "Transaction not completed yet"})
 }
 
 

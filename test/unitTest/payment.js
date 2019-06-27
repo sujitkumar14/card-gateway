@@ -1,7 +1,7 @@
 const Request = require('request-promise');
 const Chai = require('chai');
-const Utils = require('../app/utils/utils');
-const Config = require('../app/config');
+const Utils = require('../../app/utils/utils');
+const Config = require('../../app/config');
 
 let url = "http://localhost:3000/v1"
 
@@ -141,6 +141,33 @@ describe("Payment Route", function () {
             .catch((err) => {
                 err = err.error;
                 Chai.expect(err.status.code).to.equal(400);
+                done();
+            });
+    });
+
+    it('Check Checksum For Get Request' , function (done) {
+
+        this.timeout(0);
+
+
+        let options = {
+
+            'url': url + `/payment/${2}`,
+            'method': 'GET',
+            'qs':{},
+            'headers': {},
+            'json': true
+        }
+        // options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['qs']), Config['secretKey']);
+
+        Request(options)
+            .then((response) => {
+                // Chai.expect(response.status.code).to.equal(200);
+                // done();
+            })
+            .catch((err) => {
+                err = err.error;
+                Chai.expect(err.status.code).to.equal(401);
                 done();
             });
     });

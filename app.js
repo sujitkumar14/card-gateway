@@ -24,13 +24,13 @@ app.use('/v1', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  ErrorHandler.sendResponse(res,ErrorHandler.message.NOT_FOUND);
 });
 
 // error handler
 app.use(function (err, req, res, next) {
 
-  ErrorHandler.sendResponse(res,ErrorHandler.message.NOT_FOUND);
+  ErrorHandler.sendResponse(res,ErrorHandler.message.INTERNAL_SERVER_ERROR);
 });
 
 module.exports = app;

@@ -235,6 +235,10 @@ Transaction.refund = async function (refundObj) {
 
             throw new Error(ErrorHandler.message.ALREADY_REFUNDED);
         }
+        else if(transactionDetails['status'] === 'pending'){
+
+            throw new Error(ErrorHandler.message.TX_NOT_COMPLETED);
+        }
         else if (transactionDetails['status'] === 'failed') {
             //if refund is called for failed tx
             throw new Error(ErrorHandler.message.REFUND_FAILED_TX);

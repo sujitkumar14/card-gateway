@@ -4,7 +4,7 @@ const Config = require('../../app/config');
 
 let url = "http://localhost:3000/v1";
 
-let txId = '1';
+let txId = '4';
 let options = {
 
     'url': url + `/payment/${txId}`,

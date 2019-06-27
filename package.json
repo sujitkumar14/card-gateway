@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "DEBUG=card-gateway:*, node ./bin/www",
-    "test": "mocha ./test/currency"
+    "test": "mocha ./test/unitTest/card ./test/unitTest/currency ./test/unitTest/payment ./test/unitTest/refund ./test/integrationTest/paymentAndRefund"
   },
   "dependencies": {
     "bignumber.js": "9.0.0",
@@ -17,6 +17,7 @@
     "mongoose": "5.6.0",
     "morgan": "~1.9.1",
     "request": "2.88.0",
-    "request-promise": "4.2.4"
+    "request-promise": "4.2.4",
+    "uuid": "3.3.2"
   }
 }

@@ -26,16 +26,19 @@ Utils.logs = function (type, msg) {
  * validates the number is valid or not
  * @param {string|number} number 
  */
-Utils.isNumber = function (number) {
+Utils.isValidNumber = function (number) {
     number = number.toString();
     if (!number) {
 
         return false;
     }
-    else if (number === 0) {
+    else if (number === '0') {
         return false;
     }
     else if (isNaN(number)) {
+        return false;
+    }
+    else if(Number(number)<0){
         return false;
     }
     else {

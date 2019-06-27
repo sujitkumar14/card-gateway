@@ -63,6 +63,7 @@ Transaction.sendResponseToRedirectUrl = function (url, body) {
         };
 
         Request(requestObj);
+        return;
     }
     catch (err) {
 

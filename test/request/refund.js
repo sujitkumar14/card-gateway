@@ -4,8 +4,8 @@ const Config = require('../../app/config');
 
 let url = "http://localhost:3000/v1";
 
-let txId = '1'; //change txId to refund for that txs
-let rid  = '3'; //change refund Id 
+let txId = '4'; //change txId to refund for that txs
+let rid  = '4'; //change refund Id 
 let options = {
 
     'url': url + '/refund',
@@ -14,7 +14,7 @@ let options = {
 
         'txId': txId,
         'rId': rid,
-        'amount': 23
+        'amount': 2
 
     },
     'headers': {},
