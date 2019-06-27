@@ -4,7 +4,7 @@ A module interact with bank and gives back the response to payment gateway.
 
 <h2>Requirements</h2>
 
-    node>=10.16.0 && npm>=6.9.0 && mongodb>=4.0
+    node>=10.16.0 && npm>=6.9.0 && mongodb>=4.0 && redis
 
 <h2>Installation and Usage</h2>
 

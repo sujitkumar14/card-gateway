@@ -4,29 +4,31 @@ const Config = require('../../app/config');
 
 let url = "http://localhost:3000/v1";
 
-let txId = '4'; //change txId to refund for that txs
-let rid  = '4'; //change refund Id 
-let options = {
+for (let i = 30; i < 35; i++) {
+    let txId = '2'; //change txId to refund for that txs
+    let rid = i.toString();; //change refund Id 
+    let options = {
 
-    'url': url + '/refund',
-    'method': 'POST',
-    'body': {
+        'url': url + '/refund',
+        'method': 'POST',
+        'body': {
 
-        'txId': txId,
-        'rId': rid,
-        'amount': 2
+            'txId': txId,
+            'rId': rid,
+            'amount': 1
 
-    },
-    'headers': {},
-    'json': true
+        },
+        'headers': {},
+        'json': true
+    }
+    options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['body']), Config['secretKey']);
+    // console.log(options['headers']['checksum']);
+
+    Request(options)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
-options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['body']), Config['secretKey']);
-// console.log(options['headers']['checksum']);
-
-Request(options)
-    .then((response) => {
-        console.log(response);
-    })
-    .catch((err) => {
-        console.log(err);
-    });

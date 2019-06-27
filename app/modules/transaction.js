@@ -7,6 +7,7 @@ const TransactionHelper = require('../helpers/transaction');
 const Utils = require('../utils/utils');
 const CurrencyDetailsModel = require('../models/currencyDetails');
 const CardDetailsModel = require('../models/cardDetails');
+const Redis = require('../utils/redis');
 let Transaction = {};
 
 /**
@@ -221,8 +222,14 @@ Transaction.processBankRefundResponse = async function (rId, status) {
  */
 Transaction.refund = async function (refundObj) {
 
+    let lockKey = `${refundObj['txId']}:refund`;
+    let ttl = 1000; //1sec 
+    let lock;
+
+
     try {
 
+        lock = await Redis.lock(lockKey, ttl);
         let transactionDetailsAndRefundDetails = await Promise.all([PaymentTxModel.getTransaction(refundObj['txId']), RefundTxModel.getDetails(refundObj['rId'])]);
         let transactionDetails = transactionDetailsAndRefundDetails[0];
         let refundDetails = transactionDetailsAndRefundDetails[1];
@@ -235,7 +242,7 @@ Transaction.refund = async function (refundObj) {
 
             throw new Error(ErrorHandler.message.ALREADY_REFUNDED);
         }
-        else if(transactionDetails['status'] === 'pending'){
+        else if (transactionDetails['status'] === 'pending') {
 
             throw new Error(ErrorHandler.message.TX_NOT_COMPLETED);
         }
@@ -272,14 +279,22 @@ Transaction.refund = async function (refundObj) {
                 "status": status
             };
 
-
+            //unlock the lock
+            Redis.unlock(lock);
             return { "type": SuccessHandler.message.SUCCESSFULLY_REFUNDED, 'data': response };
-
         }
     }
     catch (err) {
+        if (err.message === Constants.FAILED_TO_LOCK) {
 
-        throw new Error(err.message);
+            Utils.logs(Constants.Error, err.message + JSON.stringify(refundObj));
+            throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
+        }
+        else {
+            //unlock the lock
+            Redis.unlock(lock);
+            throw new Error(err.message);
+        }
     }
 
 }

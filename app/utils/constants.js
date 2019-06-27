@@ -8,6 +8,7 @@ module.exports = {
     "ERROR": "error",
     "PENDING": "pending",
     "COMPLETED": "completed",
-    "FAILED": "failed"
+    "FAILED": "failed",
+    "FAILED_TO_LOCK": "failed to aquire lock in redis"
 
 }

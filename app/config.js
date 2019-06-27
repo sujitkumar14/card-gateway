@@ -11,6 +11,7 @@ config.development = {
     "secretKey": "AVeryLongsecretKey",
     "domain": "http://localhost:3000/v1",
     "refundWebhookUrl": "",
+    "redisUrl": ""
 }
 
 

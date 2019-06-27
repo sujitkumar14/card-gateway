@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./app/database/mongoConnection');
+require('./app/database/redisConnection');
 var indexRouter = require('./app/routes/transaction');
 const ErrorHandler = require('./app/responseHandlers/errorHandler');
 

@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-var Debug = require('debug')('card-gateway:Mongo');
+let Debug = require('debug')('card-gateway:Mongo');
 Mongoose.set('useCreateIndex', true);
 /**
  * mongoose try to conenct with database url
