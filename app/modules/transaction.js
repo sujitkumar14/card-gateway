@@ -152,7 +152,7 @@ Transaction.processBankPaymentResponse = async function (txId, status) {
             //updating the txs and giving back the response
             //send a response on the redirect url 
             await PaymentTxModel.updateTransaction(query, update);
-            TransactionHelper.sendResponseToRedirectUrl(transactionDetails['redirectUrl'], { 'status': status });
+            // TransactionHelper.sendResponseToRedirectUrl(transactionDetails['redirectUrl'], { 'status': status });
             return { "type": SuccessHandler.message.SUCCESSFULLY_PROCESSED, data: {} };
         }
     }

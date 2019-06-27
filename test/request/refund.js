@@ -4,7 +4,7 @@ const Config = require('../../app/config');
 
 let url = "http://localhost:3000/v1";
 
-for (let i = 30; i < 35; i++) {
+for (let i = 35; i < 40; i++) {
     let txId = '2'; //change txId to refund for that txs
     let rid = i.toString();; //change refund Id 
     let options = {

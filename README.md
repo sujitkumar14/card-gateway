@@ -2,58 +2,69 @@
 
 A module interact with bank and gives back the response to payment gateway.
 
-<h2>Requirements</h2>
+## Requirements
 
     node>=10.16.0 && npm>=6.9.0 && mongodb>=4.0 && redis
 
-<h2>Installation and Usage</h2>
+## Installation and Usage
 
 ```js
 npm install
 npm start
 ```
 
-<h2>API</h2>
+## API Docs
 
     url: http://localhost:3000/v1
 
-<h3>Success Response Structure</h3>
+## Success Response Structure
 
     success: true
     data: {} //object contains the Success Response or empty
     code: 200 
 
-<h3>failed Response Structure</h3>
+### failed Response Structure
 
     success: false
     code: 400-500
     description: //Reason of being failed 
 
 
-<h2> Endpoints </h2>
+## Endpoints
 
-<h3>payment</h3>
+### payment
+
 Payment endpoint interact with Bank and gives back a response on the redirect url.
 
     Endpoint: /payment
 
-Request
+#### Request
 
     Method: POST
     Body:
         a. txId
         b. cardNo
         c. cvv
-        d. expiry - timestamp 13 digit format
+        d. expiry 
         f. redirectUrl
         g. amount
         h. currencyCode
-        i. type - ['credit_card','debit_card']
-        j. saveCard - [true,false] //Permission to save the card
+        i. type 
+        j. saveCard 
     Headers:
         a. checksum -  encryted with the private Key using symmetric key
-    
-Response
+
+- **txId:** Transaction Id
+- **cardNo:** CardNo
+- **cvv:** card CVV Number(Optional If card is saved)
+- **expiry:** Card Expiry (Optional If card is saved), 13 Digit Timestamp
+- **redirectUrl:** Url at which redirection happen after the completion of payment
+- **CurrencyCode:** Currency Code in which payment being made [INR, YEN]
+- **type:** Type of Payment [credit_card, debit_card]
+- **saveCard:** Want to save card for future [true, false]
+- **checksum:** Checksum created using Private Key
+
+#### Response
 
     Body:
         a. txId 
@@ -62,19 +73,25 @@ Response
         d. currencyCode
         e. status 
     Headers:
-        a. checksum -  encryted with the private Key using symmetric key
+        a. checksum -  Body is signed with the private Key
 
-<h3>Txs Details</h3>
+- **bankUrl:** The Url received from Bank
+
+### Txs Details
+
 Returns the Details of txId
 
     Endpoint: /:txid
 
-Request:
+#### Request
+
     Method: GET
     Params:
         a. txid - Transaction Id of which details need
+    Headers:
+        a. checksum - Query Params in signed with the private key
 
-Response:
+#### Response
 
     Body:
         a. txId
@@ -89,12 +106,16 @@ Response:
         j. createdAt
         k. updatedAt
 
-<h3>Refund Payment</h3>
+- **refundedAmount:** Total Refunded Amount for the Transaction
+- **refundedTxs** Array of all refunded Txs
+
+### Refund Payment
+
 Refund the amount of txId
 
     Endpoint: /refund
 
-Request:
+#### Request
 
     Method: POST
     Body:
@@ -102,22 +123,25 @@ Request:
         b. rid - refundId
         d. amount
     Headers:
-        a. checksum - encryted with the private Key using symmetric key
-       
+        a. checksum - Signed with the private Key
 
-Response:
+- **rid:** Refuned Id
+
+#### Response
+
     Body:
         a. txId
         b. rid
         c. amount
         d. status
 
-<h3>Redirect Url for Bank</h3>
+### Redirect Url for Bank
+
 Url at which banks sends a Response after completion of payment
 
     Endpoint: /payment/:txid
 
-Request:
+#### Request
 
     Method: POST
     Params:
@@ -126,12 +150,13 @@ Request:
         status
 
 
-<h3>Redirect Refund Url for Bank</h3>
+### Redirect Refund Url for Bank
+
 Url at which banks sends a Response after completion of a payment
 
     Endpoint: /refund/:rid
 
-Request:
+#### Request
 
     Method: POST
     Params: 
@@ -139,12 +164,14 @@ Request:
     body: 
         status
 
-<h3>Add new Currency Support</h3>
+### Add new Currency Support
+
 Add a new currency
 
     Endpoint: /currency/new
 
-Request:
+#### Request
+
     Method: POST
     Body:
         a. name
@@ -152,12 +179,15 @@ Request:
         c. decimals
         e. country
 
-<h3>Save new Card</h3>
-Save a new Card
+- **name** Currency Name ex Indian Rupee
+- **Code** Currency Code ex INR
+- **Decimals** Number of Decimals supported by the this Coin ex. INR,2
+
+### Save new Card
 
     Endpoint: /card/new
 
-Request:
+#### Request
 
     Method: POST
     Body:
