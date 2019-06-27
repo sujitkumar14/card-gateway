@@ -5,7 +5,7 @@ let Schema = Mongoose.Schema;
 
 let transactionSchema = new Schema({
 
-    type: { type: String, required: true, enum: ["credit_card", "debit_card"] },
+    type: { type: String, required: true, enum: [Constants.DEBIT_CARD, Constants.CREDIT_CARD] },
     typeId: { type: String, required: true }, //cardNo in case of credit card or debit card 
     txId: { type: String, unique: true, index: true },
     status: { type: String, default: Constants.PENDING, enum: [Constants.PENDING, Constants.COMPLETED, Constants.FAILED] },

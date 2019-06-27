@@ -14,18 +14,18 @@ describe("Payment Route", function () {
 
         this.timeout(0);
 
-
+        let txId = "221"
         let options = {
 
             'url': url + '/payment',
             'method': 'POST',
             'body': {
 
-                'txId': '2',
+                'txId': txId,
                 'currencyCode': 'INR',
                 'amount': '23',
                 'type': 'debit_card',
-                'redirectUrl': "http://localhost:4000/payment/2",
+                'redirectUrl': `http://localhost:4000/payment/${txId}`,
                 'expiry': 1564120270259,
                 'cvv': 123,
                 'cardNo': 1234657899876453

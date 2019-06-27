@@ -169,9 +169,6 @@ Transaction.deductAmountInPaymentTx = async function (txId, field, amount) {
 Transaction.communicateWithBank = async function (url, data, method) {
 
     try {
-
-
-
         let options = {
 
             'method': method,
@@ -191,7 +188,7 @@ Transaction.communicateWithBank = async function (url, data, method) {
 
     }
     catch (err) {
-
+        Utils.logs(Constants.ERROR,err);
         throw new Error(ErrorHandler.message.INTERNAL_SERVER_ERROR);
     }
 }

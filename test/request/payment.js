@@ -4,7 +4,7 @@ const Config = require('../../app/config');
 
 let url = "http://localhost:3000/v1";
 
-let txId = '25';
+let txId = '32';
 let options = {
 
     'url': url + '/payment',
@@ -18,7 +18,8 @@ let options = {
         'redirectUrl': `http://localhost:4000/payment/${txId}`,
         'expiry': 1564120270259,
         'cvv': "123",
-        'cardNo': 1234657899876453
+        'cardNo': 1234657899876453,
+        'saveCard': true
     },
     'headers': {},
     'json': true

@@ -1,0 +1,29 @@
+version: '3'
+services:
+  redis:
+    image: "redis:5.0.5-alpine"
+    ports:
+      - "6379:6379"
+  mongo:
+    image: "mongo:4.0.10-xenial"
+    ports:
+      - "27017:27017"
+  bank:
+    build: ../demo-bank/.
+    ports:
+      - "4000:4000"
+  card-gateway:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: mongodb://mongo:27017/card-gateway
+      SECRET_KEY: AVeryLongsecretKey
+      DOMAIN: http://localhost:3000/v1
+      REFUND_WEBHOOK_URL: ""
+      REDIS_URL: "redis://redis:6379"
+      BANK_URL: "http://bank:4000"
+    links:
+      - mongo
+      - redis
+      - bank

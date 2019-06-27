@@ -8,6 +8,7 @@ const Utils = require('../utils/utils');
 const CurrencyDetailsModel = require('../models/currencyDetails');
 const CardDetailsModel = require('../models/cardDetails');
 const Redis = require('../utils/redis');
+const debug = require('debug')('card-gateway:tx');
 let Transaction = {};
 
 /**
@@ -44,7 +45,7 @@ Transaction.newTransaction = async function (transactionObj) {
             let body = {
                 redirectUrl: _config['domain'] + `/bank/payment/${transactionObj['txId']}`
             }
-            let bankURL = `http://localhost:4000/bank/payment/${transactionObj['txId']}`;
+            let bankURL = `${_config['bankUrl']}/bank/payment/${transactionObj['txId']}`;
             let method = 'POST';
 
             let bankResponse = await TransactionHelper.communicateWithBank(bankURL, body, method);
@@ -85,7 +86,7 @@ Transaction.newTransaction = async function (transactionObj) {
 
     }
     catch (err) {
-
+        debug(err);
         throw new Error(err.message);
     }
 }
