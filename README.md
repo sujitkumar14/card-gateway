@@ -1,5 +1,7 @@
 # Card Gateway
 
+[![DeepScan grade](https://deepscan.io/api/teams/4381/projects/6129/branches/49432/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=4381&pid=6129&bid=49432)
+
 A module interact with bank and gives back the response to payment gateway.
 
 ## Requirements
