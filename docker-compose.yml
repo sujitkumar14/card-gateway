@@ -9,7 +9,7 @@ services:
     ports:
       - "27017:27017"
   bank:
-    build: ../demo-bank/.
+    build: ../bank/.
     ports:
       - "4000:4000"
   card-gateway:
