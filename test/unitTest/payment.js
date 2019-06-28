@@ -14,7 +14,7 @@ describe("Payment Route", function () {
 
         this.timeout(0);
 
-        let txId = "221"
+        let txId = "224"
         let options = {
 
             'url': url + '/payment',

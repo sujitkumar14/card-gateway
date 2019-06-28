@@ -74,6 +74,8 @@ Transaction.newTransaction = async function (transactionObj) {
                 'currencyCode': transactionObj['currencyCode']
             };
 
+             
+
             return { "type": SuccessHandler.message.PENDING_TX, "data": responseData };
 
 

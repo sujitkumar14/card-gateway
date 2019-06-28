@@ -4,7 +4,7 @@ const Config = require('../../app/config');
 
 let url = "http://localhost:3000/v1";
 
-let txId = '32';
+let txId = '39';
 let options = {
 
     'url': url + '/payment',
@@ -25,12 +25,12 @@ let options = {
     'json': true
 }
 options['headers']['checksum'] = Utils.createHMAC256(JSON.stringify(options['body']), Config['secretKey']);
-// console.log(options['headers']['checksum']);
+console.log(options['headers']['checksum']);
 
-Request(options)
-    .then((response) => {
-        console.log(response);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+// Request(options)
+//     .then((response) => {
+//         console.log(response);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });

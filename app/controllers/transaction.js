@@ -68,7 +68,11 @@ Transaction.newTransaction = async function (req, res) {
             }
 
             let newTransactionResponse = await TransactionModule.newTransaction(txObj);
-            SuccessHandler.sendResponse(res, newTransactionResponse.type, newTransactionResponse.data);
+
+            /////////////// checksum with response ////////////////////////
+            let checksum = Utils.createHMAC256(JSON.stringify(newTransactionResponse.data),_config['secretKey']);
+            ///////////////////////////////////////////////////////////////
+            SuccessHandler.sendResponse(res, newTransactionResponse.type, newTransactionResponse.data,undefined,checksum);
 
         }
 
@@ -180,7 +184,11 @@ Transaction.refund = async function (req, res) {
                 amount
             }
             let refundResponse = await TransactionModule.refund(refundObj);
-            SuccessHandler.sendResponse(res, refundResponse.type, refundResponse.data);
+            ///////////////// checksum with response /////////////////////
+            let checksum = Utils.createHMAC256(JSON.stringify(refundResponse.data),_config.secretKey);
+            ////////////////////////////////
+
+            SuccessHandler.sendResponse(res, refundResponse.type, refundResponse.data,undefined,checksum);
         }
 
     }

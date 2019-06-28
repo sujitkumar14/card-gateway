@@ -22,10 +22,16 @@ SuccessHandler.message = {
  * @param {object} res - Response Object
  * @param {Object} type - SuccessHandler.message
  * @param {object} datas - data of Success Response
+ * @param {string} redirectUrl 
+ * @param {string} checksum checksum 
  */
-SuccessHandler.sendResponse = function (res, type, datas, redirectUrl, description) {
+SuccessHandler.sendResponse = function (res, type, datas, redirectUrl, checksum, description) {
+
+    if (checksum)
+        res.setHeader('checksum', checksum);
 
     if (!redirectUrl) {
+
         let successType = type;
 
         let successResponse = {
