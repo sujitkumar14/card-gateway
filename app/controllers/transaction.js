@@ -70,9 +70,9 @@ Transaction.newTransaction = async function (req, res) {
             let newTransactionResponse = await TransactionModule.newTransaction(txObj);
 
             /////////////// checksum with response ////////////////////////
-            let checksum = Utils.createHMAC256(JSON.stringify(newTransactionResponse.data),_config['secretKey']);
+            let checksum = Utils.createHMAC256(JSON.stringify(newTransactionResponse.data), _config['secretKey']);
             ///////////////////////////////////////////////////////////////
-            SuccessHandler.sendResponse(res, newTransactionResponse.type, newTransactionResponse.data,undefined,checksum);
+            SuccessHandler.sendResponse(res, newTransactionResponse.type, newTransactionResponse.data, undefined, checksum);
 
         }
 
@@ -117,8 +117,13 @@ Transaction.bankPaymentResponse = async function (req, res) {
         //just for testing/////////
         let status = req.query['status'];
         //////////////////////////////////
-        let processBankResponse = await TransactionModule.processBankPaymentResponse(txId,status);
-        SuccessHandler.sendResponse(res, processBankResponse.type, processBankResponse.data, processBankResponse.redirectUrl);
+        let processBankResponse = await TransactionModule.processBankPaymentResponse(txId, status);
+
+        // checksum creation
+        let checksum = Utils.createHMAC256(JSON.stringify(processBankResponse.data), _config.secretKey);
+
+
+        SuccessHandler.sendResponse(res, processBankResponse.type, processBankResponse.data, processBankResponse.redirectUrl, checksum);
     }
     catch (err) {
 
@@ -185,10 +190,10 @@ Transaction.refund = async function (req, res) {
             }
             let refundResponse = await TransactionModule.refund(refundObj);
             ///////////////// checksum with response /////////////////////
-            let checksum = Utils.createHMAC256(JSON.stringify(refundResponse.data),_config.secretKey);
+            let checksum = Utils.createHMAC256(JSON.stringify(refundResponse.data), _config.secretKey);
             ////////////////////////////////
 
-            SuccessHandler.sendResponse(res, refundResponse.type, refundResponse.data,undefined,checksum);
+            SuccessHandler.sendResponse(res, refundResponse.type, refundResponse.data, undefined, checksum);
         }
 
     }
